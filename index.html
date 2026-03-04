@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Portal de Notícias</title>
-
+  
   <style>
     :root{
       --bg: #0b0f17;
@@ -17,7 +17,7 @@
       --shadow: 0 10px 25px rgba(0,0,0,.35);
 
       /* gancho para exercício de fonte */
-      --base-font: 16px;
+      --base-font: 1rem;
     }
 
     * { box-sizing: border-box; }
@@ -242,10 +242,46 @@
       color: var(--muted);
       font-size: .95em;
     }
+
+     .accessibility-controls{
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: .5rem;
+  z-index: 9999;
+}
+
+.fixed-btn{
+  font-size: 1rem; /* tamanho fixo */
+}
+
+.font-btn{
+  padding: .4rem .7rem;
+  border-radius: .6rem;
+  border: 1px solid var(--border);
+  background: rgba(17,24,39,.9);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .05s ease, border-color .15s ease;
+}
+
+.font-btn:hover{
+  border-color: rgba(255,255,255,.25);
+}
+
+.font-btn:active{
+  transform: translateY(1px);
+}
+    
   </style>
 </head>
 
 <body>
+  <div class="accessibility-controls">
+  <button id="increaseFont" class="font-btn fixed-btn">A+</button>
+  <button id="decreaseFont" class="font-btn fixed-btn">A-</button>
+</div>
   <div class="topbar">
     <div class="container">
       <div class="topbar-inner">
@@ -391,6 +427,7 @@
                   <div class="m">Como identificar e evitar links suspeitos</div>
                 </div>
               </div>
+          
 
               <div class="rank-item">
                 <div class="rank-num">3</div>
@@ -448,9 +485,29 @@
     </div>
   </div>
 
-  <script>
- 
+ <script>
+const increaseBtn = document.getElementById("increaseFont");
+const decreaseBtn = document.getElementById("decreaseFont");
 
-  </script>
+let currentSize = 1;
+const minSize = 0.8;
+const maxSize = 1.5;
+const step = 0.1;
+
+increaseBtn.addEventListener("click", () => {
+  if (currentSize < maxSize) {
+    currentSize += step;
+    document.body.style.fontSize = currentSize + "rem";
+  }
+});
+
+decreaseBtn.addEventListener("click", () => {
+  if (currentSize > minSize) {
+    currentSize -= step;
+    document.body.style.fontSize = currentSize + "rem";
+  }
+});
+</script>
+
 </body>
 </html>
