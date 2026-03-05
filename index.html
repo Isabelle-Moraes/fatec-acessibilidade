@@ -244,12 +244,11 @@
     }
 
      .accessibility-controls{
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
+ .accessibility-controls{
   display: flex;
   gap: .5rem;
-  z-index: 9999;
+  align-items: center;
+}
 }
 
 .fixed-btn{
@@ -273,40 +272,86 @@
 .font-btn:active{
   transform: translateY(1px);
 }
+body.high-contrast {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* Força bordas brancas ou amarelas em todos os blocos */
+body.high-contrast .card, 
+body.high-contrast .news-item, 
+body.high-contrast .topbar,
+body.high-contrast .nav-item,
+body.high-contrast .search,
+body.high-contrast .pill {
+  background: #000 !important;
+  border: 2px solid #fff !important; /* Borda mais grossa para visibilidade */
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+/* Altera cores de destaque (Kickers, Links, etc) para Amarelo (padrão de acessibilidade) */
+body.high-contrast .kicker,
+body.high-contrast .brand-title .name,
+body.high-contrast .rank-num,
+body.high-contrast .section-title {
+  color: rgb(255, 255, 0) !important;
+}
+
+/* Ajusta o dot de destaque */
+body.high-contrast .dot {
+  background: #ffff00 !important;
+  box-shadow: none !important;
+}
+
+/* Garante que o texto mudo (muted) fique legível */
+body.high-contrast .subhead,
+body.high-contrast .tagline,
+body.high-contrast .muted,
+body.high-contrast .rank-text .m,
+body.high-contrast .desc {
+  color: rgb(255, 255, 255) !important;
+}
+
+/* Remove gradientes de fundo que atrapalham o contraste */
+body.high-contrast {
+  background-image: none !important;
+}
     
   </style>
 </head>
 
 <body>
+  
+  
+  <div class="topbar-inner">
+  
+  <div class="brand">...</div>
+
+  <div class="nav" id="nav">
+    <div class="nav-item">Início</div>
+    <div class="nav-item">Brasil</div>
+    <div class="nav-item">Mundo</div>
+    <div class="nav-item">Economia</div>
+    <div class="nav-item">Tecnologia</div>
+    <div class="nav-item">Esportes</div>
+    <div class="nav-item">Entretenimento</div>
+  </div>
+
   <div class="accessibility-controls">
-  <button id="increaseFont" class="font-btn fixed-btn">A+</button>
-  <button id="decreaseFont" class="font-btn fixed-btn">A-</button>
+    <button id="increaseFont" class="font-btn">A+</button>
+    <button id="decreaseFont" class="font-btn">A-</button>
+    <button id="toggleContrast" class="font-btn">Contraste</button>
+  </div>
+
+  <div class="tools">
+    <div class="search" id="search">
+      <div class="search-icon"></div>
+      <div class="search-input">Buscar no portal…</div>
+    </div>
+  </div>
+
 </div>
-  <div class="topbar">
-    <div class="container">
-      <div class="topbar-inner">
-        <div class="brand">
-          <div class="brand-badge"></div>
-          <div class="brand-title">
-            <div class="name">Portal Agora</div>
-            <div class="tagline">manchetes, economia, tech e esportes</div>
-          </div>
-        </div>
-
-        <div class="nav" id="nav">
-          <div class="nav-item">Início</div>
-          <div class="nav-item">Brasil</div>
-          <div class="nav-item">Mundo</div>
-          <div class="nav-item">Economia</div>
-          <div class="nav-item">Tecnologia</div>
-          <div class="nav-item">Esportes</div>
-          <div class="nav-item">Entretenimento</div>
-        </div>
-
-        <div class="tools">
-          <div class="search" id="search">
-            <div class="search-icon"></div>
-            <div class="search-input">Buscar no portal… (falso input)</div>
           </div>
          
           
@@ -507,6 +552,21 @@ decreaseBtn.addEventListener("click", () => {
     document.body.style.fontSize = currentSize + "rem";
   }
 });
+const contrastBtn = document.getElementById("toggleContrast");
+
+contrastBtn.addEventListener("click", () => {
+  // Alterna a classe 'high-contrast' no body
+  document.body.classList.toggle("high-contrast");
+  
+  // Opcional: Salvar a preferência no navegador do usuário
+  const isHighContrast = document.body.classList.contains("high-contrast");
+  localStorage.setItem("high-contrast", isHighContrast);
+});
+
+// Opcional: Verificar se o usuário já tinha ativado o contraste antes
+if (localStorage.getItem("high-contrast") === "true") {
+  document.body.classList.add("high-contrast");
+}
 </script>
 
 </body>
